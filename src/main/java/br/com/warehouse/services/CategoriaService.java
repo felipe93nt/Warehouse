@@ -32,10 +32,19 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria categoria) {
-		if(categoriaRepository.existsById(categoria.getId())) {
-			return categoriaRepository.save(categoria);
+		this.exists(categoria.getId());
+		return categoriaRepository.save(categoria);
+	}
+
+	public void delete(Integer id) {
+			this.exists(id);
+			categoriaRepository.deleteById(id);
+	}
+	
+	private boolean exists(Integer id) {
+		if(categoriaRepository.existsById(id)) {
+			return true;
 		}
-		throw new ResourceNotFoundException("Category not found for id: "
-				+ categoria.getId());
+		throw new ResourceNotFoundException("Category not found for id: " + id);
 	}
 }
