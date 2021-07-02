@@ -11,12 +11,16 @@ import br.com.warehouse.repositories.CategoriaRepository;
 @Service
 public class CategoriaService {
 
-	
-	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	public CategoriaService(CategoriaRepository categoriaRepository) {
+		this.categoriaRepository = categoriaRepository;
+	}
 	
 	public Iterable<Categoria> all() {
 		return categoriaRepository.findAll();
+		
 	}
 	
 	public Optional<Categoria> findById(Integer id) {

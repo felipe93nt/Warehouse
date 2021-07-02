@@ -26,7 +26,7 @@ public class Categoria implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@ApiModelProperty(hidden = true)
 	private Integer id;
-	@NotBlank
+	@NotBlank(message="Campo deve ser preenchido!")
 	private String name;
 
 }
