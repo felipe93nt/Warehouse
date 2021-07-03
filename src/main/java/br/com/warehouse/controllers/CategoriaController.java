@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.warehouse.models.Categoria;
 import br.com.warehouse.services.CategoriaService;
+import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping(path = "categories")
+@Api( description="Api for CRUD categories Operations")
 public class CategoriaController {
 	
-	private CategoriaService categoriaService;
+	private final CategoriaService categoriaService;
 	
 	@Autowired
 	public CategoriaController(CategoriaService categoriaService) {
@@ -58,7 +61,7 @@ public class CategoriaController {
 	
 	@PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> alterCategorias(@Valid @RequestBody Categoria categoria) {
-		Categoria cat = categoriaService.update(categoria);
+		Categoria cat = categoriaService.update(categoria.getId(), categoria.getName());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(cat.getId()).toUri();

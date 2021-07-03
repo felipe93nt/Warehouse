@@ -1,5 +1,7 @@
 package br.com.warehouse.services;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import br.com.warehouse.repositories.CategoriaRepository;
 @Service
 public class CategoriaService {
 
-	private CategoriaRepository categoriaRepository;
+	private final CategoriaRepository categoriaRepository;
 
 	@Autowired
 	public CategoriaService(CategoriaRepository categoriaRepository) {
@@ -30,10 +32,12 @@ public class CategoriaService {
 	public Categoria save(Categoria categoria) {
 		return categoriaRepository.save(categoria);
 	}
-
-	public Categoria update(Categoria categoria) {
-		this.exists(categoria.getId());
-		return categoriaRepository.save(categoria);
+	
+	@Transactional
+	public Categoria update(Integer id,String name) {
+		Categoria categoria = findById(id);
+		categoria.setName(name);
+		return categoria;
 	}
 
 	public void delete(Integer id) {
